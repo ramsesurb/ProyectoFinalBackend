@@ -1,0 +1,144 @@
+paths:
+  /api/productos:
+    get:
+      summary: Obtener todas los productos
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: Los productos se obtuvieron de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor
+  /api/productos/:
+    post:
+      summary: Obtener todas los productos
+      tags:
+        - Productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/PostProducts"
+      responses:
+        "200":
+          description: Los productos se obtuvieron de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor          
+  /api/productos/{id}/:
+    get:
+      summary: Obtener productos por ID
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id es el id del producto
+          schema:
+            $type: number  
+      responses:
+        "200":
+          description: El productos se obtuvo de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor
+  /api/productos/{id}:
+    delete:
+      summary: borrar productos por ID
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id es el id del producto a borrar
+          schema:
+            $type: number  
+      responses:
+        "200":
+          description: El producto se elimino de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor  
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id del producto
+        titulo:
+          type: string
+          description: nombre del producto
+        descripcion:
+          type: string
+          description: descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        code:
+          type: string
+          description: codigo unico del producto
+        thumbnail:
+          type: String
+          description: imagen del producto
+      example:
+        _id: ObjectId("gsa98273skjhgda8912")
+        titulo: "Prs Multifoil"
+        descripcion: "Guitarra Electrica"
+        precio: 5000,
+        code: "abc005"
+        thumbnail: "wwww.cpom"
+        stock: "50"
+        status: true  
+  requestBodies:
+    PostProducts:
+      type: object
+      properties:
+        titulo:
+          type: string
+          description: nombre del producto
+        descripcion:
+          type: string
+          description: descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        code:
+          type: string
+          description: codigo unico del producto
+        thumbnail:
+          type: String
+          description: imagen del producto
+      example:
+        titulo: "Prs Multifoil"
+        descripcion: "Guitarra Electrica"
+        precio: 5000,
+        code: "abc005"
+        thumbnail: "wwww.cpom"
+        stock: 50,
+        status: true

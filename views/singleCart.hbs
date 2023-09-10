@@ -1,0 +1,49 @@
+<div class="card border border-dark border-3 rounded">
+    <div class="card-body">
+    <h1>Tu Carrito!</h1>
+    <p>{{user.first_name }} {{user.last_name}}</p>
+    <p>{{user.email}}</p>
+    <p>Rol:{{user.rol}}</p>
+    <p>Rol:{{user.cartId}}</p>
+    <a href="/prods" class="btn btn-primary">Volver</a>
+    <a href="/prods" class="btn btn-primary addTicket"  data-cart-id="{{user.cartId}}">finalizar compra</a>
+    
+    </div>
+</div>
+
+
+<div class="entry mt-4">
+  {{#if productos}}
+  <div class="p-1 ">
+    <div class="">
+      <div id="prodDisplay">
+     
+        {{#each productos}}
+     
+        
+         <div>{{ this.thumbnail }}</div>
+         
+         <div class="row">
+  <div class="card border-light">
+  <div class="card-header">
+   <h5 class="card-title">{{ this.producto.titulo }}</h5>
+  </div>
+  <div class="card-body">
+    
+    <p class="card-text">cantidad:{{ this.quantity }}/ precio:{{ this.producto.precio }}</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+           
+
+           {{/each}}
+      </div>
+    </div>
+  </div>
+  {{else}}
+  <br>
+  <h3>No hay ningún producto agregado.</h3>
+  {{/if}}
+</div>
+
+<script src="/js/postTicket.js"></script>
