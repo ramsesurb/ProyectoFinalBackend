@@ -10,7 +10,10 @@ const schema = new Schema({
   email: String,
   age: Number,
   password: String,
-  rol: String,
+  rol: {
+    type: String,
+    default: 'user' // Valor predeterminado 'user' para el campo 'rol'
+  },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart'
@@ -20,7 +23,6 @@ const schema = new Schema({
 const generateUniqueCartId = async () => {
   const cart = await cartModel.findOne().sort({ id: -1 }).exec();
   return cart ? cart.id + 1 : 1;
-  
 };
 
 schema.pre('save', async function (next) {
