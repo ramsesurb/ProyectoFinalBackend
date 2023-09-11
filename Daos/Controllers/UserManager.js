@@ -1,4 +1,4 @@
-import userModel from "../Models/User.js";
+
 
 class UserManager {
   async getAllUsers() {
@@ -32,34 +32,8 @@ class UserManager {
       console.log(error);
     }
   }
-
-  async updateUserToPremium(uId) {
-    try {
-      const updatedUser = await userModel.findOneAndUpdate(
-        { _id: uId },
-        { $set: { rol: 'premium' } },
-        { new: true }
-      );
-
-      return updatedUser;
-    } catch (error) {
-      console.log(error);
-    }
   }
-  async updatePremiumToUser(uId) {
-    try {
-      const updatedUser = await userModel.findOneAndUpdate(
-        { _id: uId },
-        { $set: { rol: 'user' } },
-        { new: true }
-      );
-
-      return updatedUser;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
 
 
-export default UserManager;
+export default UserManager
+const rute = new UserManager();
