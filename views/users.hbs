@@ -1,0 +1,34 @@
+
+<div class="entry mt-4">
+  {{#if productos}}
+  <div class="  p-1 border border-dark border-3 rounded">
+    <table class="  table table-resposive ">
+      <thead class="thead-dark text-light bg-primary">
+        <tr>
+          <th scope="col">nombre y apellido</th>
+          <th scope="col">id</th>
+          <th scope="col">Email</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Cambiar a premium</th>
+          <th scope="col">Cambiar a usuario</th>
+        </tr>
+      </thead>
+      <tbody id="prodDisplay">
+        {{#each productos}}
+        <tr class="table">
+          <th>{{ first_name }} {{ last_name }}</th>
+          <td>{{ this._id }}</td>
+          <td>{{ this.email }}</td>
+          <td>{{ this.rol }}</td>
+          <td><a href="/cart/{{user.cartId}}" class="btn btn-primary">hacer premium</a></td>
+          <td><a href="/cart/{{user.cartId}}" class="btn btn-primary">hacer user</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <br>
+    <h3> No hay ningún producto agregado. </h3>
+    {{/if}}
+  </div>
+</div>

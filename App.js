@@ -8,6 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 import initializePassport from './config/passport.js';
 import passport from 'passport';
 
+import userList from "./Routes/UserList.js";
 import staticProd from "./Routes/StaticProd.js";
 import realTime from "./Routes/realTime.js";
 import routerCart from "./Routes/Cart.js";
@@ -73,6 +74,7 @@ app.use("/chat",realTimeChat)
 //express estatico
 app.use("/", staticProd);
 app.use("/cart",cartView);
+app.use("/users",userList)
 //rutas api
 app.use("/api/cart", routerCart);
 app.use("/api/productos", routerProd);
