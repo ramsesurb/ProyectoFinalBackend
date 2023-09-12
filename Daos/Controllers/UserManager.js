@@ -33,10 +33,10 @@ class UserManager {
     }
   }
 
-  async updateUserToPremium(uId) {
+  async updateUserToPremium(userId) {
     try {
       const updatedUser = await userModel.findOneAndUpdate(
-        { _id: uId },
+        { _id: userId },
         { $set: { rol: 'premium' } },
         { new: true }
       );
@@ -46,10 +46,19 @@ class UserManager {
       console.log(error);
     }
   }
-  async updatePremiumToUser(uId) {
+  async deleteById(id) {
+    try {
+      const deleteByid = await userModel.findOneAndDelete({_id:id})
+      return deleteByid;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updatePremiumToUser(userId) {
     try {
       const updatedUser = await userModel.findOneAndUpdate(
-        { _id: uId },
+        { _id: userId },
         { $set: { rol: 'user' } },
         { new: true }
       );

@@ -1,4 +1,3 @@
-
 <div class="entry mt-4">
   {{#if productos}}
   <div class="  p-1 border border-dark border-3 rounded">
@@ -11,6 +10,7 @@
           <th scope="col">Rol</th>
           <th scope="col">Cambiar a premium</th>
           <th scope="col">Cambiar a usuario</th>
+          <th scope="col">Borrar</th>
         </tr>
       </thead>
       <tbody id="prodDisplay">
@@ -20,8 +20,9 @@
           <td>{{ this._id }}</td>
           <td>{{ this.email }}</td>
           <td>{{ this.rol }}</td>
-          <td><a href="/cart/{{user.cartId}}" class="btn btn-primary">hacer premium</a></td>
-          <td><a href="/cart/{{user.cartId}}" class="btn btn-primary">hacer user</a></td>
+          <td> <a href="" class="btn btn-primary premiumButton" data-cart-id="{{ this._id }}">premium</a></td>
+          <td> <a href="" class="btn btn-primary userButton" data-cart-id="{{ this._id }}">user</a></td>
+          <td> <a href="" class="btn btn-primary deleteButton" data-cart-id="{{ this._id }}">eliminar</a></td>
         </tr>
         {{/each}}
       </tbody>
@@ -32,3 +33,5 @@
     {{/if}}
   </div>
 </div>
+
+<script src="/js/userActions.js"></script>

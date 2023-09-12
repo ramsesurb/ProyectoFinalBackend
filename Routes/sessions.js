@@ -6,8 +6,9 @@ import passport from 'passport';
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
-
+    //res.redirect('/')
     res.send({status:"succes", message:"User registered"});
+   
 
 })
 router.get('/failregister', async (req,res)=>{
