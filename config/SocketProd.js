@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 const productos = new ProductManagerMongo();
 const chat= new ChatManager()
 
-
+// el socket se rompio pero envia por parametro el owner
 export default function configureWebSocketServer(app) {
   const server = http.createServer(app);
   const socketServerIO = new Server(server);
