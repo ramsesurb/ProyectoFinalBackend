@@ -3,7 +3,7 @@ import ProductManagerMongo from "../Controllers/ProductManagerMongo.js";
 const productManagerMongo = new ProductManagerMongo();
 
 export default class ProductController{
-    async getProducts() {
+    async getProducts (req, res) {
         try {
           const products = await productManagerMongo.getProducts();
           return products
@@ -11,8 +11,8 @@ export default class ProductController{
           console.error(error);
         }
       }
-      async  addProduct(prod){
-        const products = await productManagerMongo.addProduct(prod)
+      async  addProduct( prod,sessionUser ){
+        const products = await productManagerMongo.addProduct(prod,sessionUser)
         return products
     }
       async  getByid(id){

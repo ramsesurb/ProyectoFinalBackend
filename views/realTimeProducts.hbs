@@ -1,3 +1,17 @@
+<div class="card border border-dark border-3 rounded mb-2 mt-3">
+    <div class="card-body">
+    <h1>Hola!</h1>
+    <p>{{user.first_name }} {{user.last_name}}</p>
+    <p>{{user.email}}</p>
+    <p>Rol:{{user.rol}}</p>
+    <p>cart id:{{user.cartId}}</p>
+    <p>user id:{{user.id}}</p>
+    <a href="/prods" class="btn btn-primary">Volver</a>
+    
+    </div>
+</div>
+
+
 <div class="card border border-dark border-3 rounded bg-success">
   <div class="card-body">
     <h1 class="text-light text-center">Agregar Producto</h1>
@@ -37,12 +51,16 @@
         <input type="number" placeholder="50" id="stock" name="stock" class="form-control">
       </div>
       <div class="form-group">
-        <label for="thumbnail"><b>thumbnail</label>
+        <label for="thumbnail"><b> <p>user id:{{user.id}}</p> </label>
         <input type="text" placeholder="https://muzikercdn.com/uploads/products/789/78991/main_9a486311.jpg"
           id="thumbnail" name="thumbnail" class="form-control">
       </div>
+      <div class="form-group">
+  <label for="owner"><b>Owner</b></label>
+  <input type="hidden" id="owner" name="owner" value="{{user.id}}">
+</div>
 
-      <button class="btn btn-success mt-4">Agregar</button>
+      <button class="btn btn-success mt-4" data-cart-id="{{ ../user.id }} " >Agregar</button>
 
     </form>
 
@@ -98,7 +116,7 @@
       <tbody id="prodDisplay">
         {{#each productos}}
         <tr class="table">
-          <th>{{ this.id }}</th>
+          <th>{{ this._id }}</th>
           <td>{{ this.titulo }}</td>
           <td>{{ this.precio }}</td>
           <td>{{ this.stock }}</td>

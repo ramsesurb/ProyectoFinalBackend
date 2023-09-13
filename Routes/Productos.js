@@ -9,6 +9,8 @@ import ProductController from "../Daos/Managers/prodManager.js";
 //import ProductManagerMongo from "../Daos/Controllers/ProductManagerMongo.js";
 //const productController = new ProductController();
 
+import  {getSessionUser}  from "../Helpers/sessionUser.js";
+
 const productController = new ProductController();
 
 const adminAccess = (req, res, next) => {
@@ -32,6 +34,9 @@ const routerProd = Router();
 //getAll productos
 routerProd.get("/", async (req, res) => {
   try {
+    const sessionUser = getSessionUser(req);
+    console.log(sessionUser)
+    
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const prodsRaw = await productController.getProducts(limit);
     const prods = prodsRaw.map((item) => item.toObject());
@@ -75,10 +80,13 @@ routerProd.get("/:id", async (req, res, next) => {
 });
 
 //save new product
-routerProd.post("/", async (req, res, next) => {
+routerProd.post("/owner/:oid", async (req, res, next) => {
   const prod = req.body;
+  const { oid } = req.params;
+  const sessionUser = getSessionUser(req);
+    console.log(sessionUser)
   try {
-    const saveProd = await productController.addProduct(prod);
+    const saveProd = await productController.addProduct(prod,oid);
     if (!prod) {
       CustomError.createError({
         name: "product create error",

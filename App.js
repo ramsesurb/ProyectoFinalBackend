@@ -77,7 +77,9 @@ app.use("/cart",cartView);
 app.use("/users",userList)
 //rutas api
 app.use("/api/cart", routerCart);
-app.use("/api/productos", routerProd);
+app.use('/api/productos', (req, res) => {
+  routerProd(req, res, req.session.user); // Pasa req.session.user como argumento
+})
 app.use('/api/docs', swaggerUi.serve,swaggerUi.setup(swaggerSpecs));
 //middlewares generales
 app.use(errorHandler);

@@ -19,11 +19,11 @@ const userAccess = (req, res, next) => {
     res.redirect("/"); // Puedes redirigir a una página de acceso denegado o mostrar un mensaje de error
   }}
 //vista realtime
-realTime.get("/",adminAccess, async (req, res) => {
+realTime.get("/", async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
   const prodsRaw = await productos.getProducts(limit);
   const prods = prodsRaw.map(item=>item.toObject())
-  res.render("realTimeProducts", { productos: prods });
+  res.render("realTimeProducts", { productos: prods ,user: req.session.user });
 });
 
 export default realTime;

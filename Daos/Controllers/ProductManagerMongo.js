@@ -2,6 +2,10 @@
 import productoModel from '../Models/mongo.js';
 
 class ProductManagerMongo {
+
+  async getSessionUser (req){
+    return req.session.user
+  }
   async getProducts(limit, sort, descripcion) {
     try {
       let query = productoModel.find();
@@ -27,7 +31,7 @@ class ProductManagerMongo {
     }
   }
 
-  async addProduct(prod) {
+  async addProduct(prod,oid) {
     try {
       const saveCont = await this.getProducts();
 
@@ -52,6 +56,7 @@ class ProductManagerMongo {
         code: prod.code,
         thumbnail: prod.thumbnail,
         stock: prod.stock,
+        owner: oid,
         status: true
       };
       const result = await productoModel.create(newProduct)

@@ -3,6 +3,7 @@ import productoModel from "../Daos/Models/mongo.js";
 import { productsService} from "../Repository/index.js";
 import { CreateUserDto } from "../Daos/Dto/usersDto.js";
 import { generateProduct } from '../utils.js';
+import  {getSessionUser}  from "../Helpers/sessionUser.js";
 
 
 
@@ -84,7 +85,8 @@ staticProd.get("/prods",   async (req, res) => {
 
   const prodsRaw = await productsService.getProducts(queryLimit, sort);
   const prods = prodsRaw.map(item => item.toObject());
-
+  const sessionUser = getSessionUser(req);
+    console.log(sessionUser)
   res.render("home", {
     productos: docs,
     hasPrevPage,

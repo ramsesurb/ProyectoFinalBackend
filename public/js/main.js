@@ -11,6 +11,7 @@ form.addEventListener("submit", (event) => {
   const code = form.elements.code.value;
   const stock = form.elements.stock.value;
   const thumbnail = form.elements.thumbnail.value;
+  const owner = form.elements.owner.value;
 
   console.log(event);
   socket.emit("nuevoProducto", {
@@ -19,6 +20,7 @@ form.addEventListener("submit", (event) => {
     descripcion,
     code,
     stock,
+    owner,
     thumbnail,
   });
 });
