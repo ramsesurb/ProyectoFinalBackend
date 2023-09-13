@@ -1,5 +1,6 @@
 
 import productoModel from '../Models/mongo.js';
+import { sendMailDeleted } from '../../Helpers/sendMailDeletedProd.js';
 
 class ProductManagerMongo {
 
@@ -77,12 +78,25 @@ class ProductManagerMongo {
      // console.log(error);
     }
   }
-  async deleteById(id) {
+  async  deleteById(id) {
     try {
-      const deleteByid = await productoModel.findOneAndDelete({_id:id})
-      return deleteByid;
+      const deletedProduct = await productoModel.findOneAndDelete({ _id: id });
+      console.log(deletedProduct.owner.email)
+  
+      // Comprueba si el propietario es "Premium" y si el producto se eliminó correctamente
+      if (deletedProduct.owner === 'Premium') {
+        await sendMailDeleted(
+          new Date().toLocaleDateString(), // Cambia esto según cómo obtienes la fecha
+          deletedProduct.precio, // Supongamos que el precio se utiliza como totalAmount
+          deletedProduct.ownerEmail // Asegúrate de tener una propiedad ownerEmail en tu modelo de producto
+        );
+      }
+  
+      return deletedProduct;
     } catch (error) {
       console.log(error);
+      // Maneja cualquier error que ocurra al eliminar el producto
+      throw error;
     }
   }
   async deleteAll() {
