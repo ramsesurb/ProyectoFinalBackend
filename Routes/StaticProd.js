@@ -4,7 +4,9 @@ import { productsService} from "../Repository/index.js";
 import { CreateUserDto } from "../Daos/Dto/usersDto.js";
 import { generateProduct } from '../utils.js';
 import  {getSessionUser}  from "../Helpers/sessionUser.js";
+import ProductManagerMongo from "../Daos/Controllers/ProductManagerMongo.js";
 
+const productos = new ProductManagerMongo()
 
 
 const staticProd = Router();
@@ -59,6 +61,15 @@ staticProd.get('/current',userAccess, async (req,res)=>{
   let{ first_name,last_name,email,age} = req.session.user
   let user = new CreateUserDto({first_name,last_name,email,age})
   res.render('profile',{user})
+})
+
+staticProd.get('/manager', async (req,res)=>{
+  const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+  const prodsRaw = await productos.getProducts(limit);
+ 
+  const prods = prodsRaw.map(item=>item.toObject())
+ 
+  res.render('manageProds',{user: req.session.user ,  productos: prods })
 })
 
 staticProd.get("/prods",   async (req, res) => {

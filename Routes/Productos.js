@@ -106,7 +106,7 @@ routerProd.post("/owner/:oid", async (req, res, next) => {
 //delete by id
 routerProd.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const pid = parseInt(id);
+  const pid = id;
 
   try {
     const prodById = await productController.getByid(id);

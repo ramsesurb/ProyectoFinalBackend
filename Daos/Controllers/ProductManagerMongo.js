@@ -78,7 +78,7 @@ class ProductManagerMongo {
   }
   async deleteById(id) {
     try {
-      const deleteByid = await productoModel.findOneAndDelete({id:id})
+      const deleteByid = await productoModel.findOneAndDelete({_id:id})
       return deleteByid;
     } catch (error) {
       console.log(error);

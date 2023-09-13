@@ -30,7 +30,7 @@ const form2 = document.getElementById("productForm2");
 form2.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const id = parseInt(form2.elements.id.value);
+  const id = form2.elements.id.value;
 
   console.log(event);
   socket.emit("quitarProducto", { id });
@@ -46,10 +46,11 @@ const renderizarTabla = (data) => {
   const productsMap = data
     .map((item) => {
       return `<tr>
-  <th scope="row">${item.id}</th>
+  <th scope="row">${item._id}</th>
   <td>${item.titulo}</td>
   <td>${item.precio}</td>
   <td>${item.stock}</td>
+  <td>${item.owner.id}</td>
   <td><img src="${item.thumbnail}" width="50"></td>
   </tr>
   `;

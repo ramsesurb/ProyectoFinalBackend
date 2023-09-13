@@ -11,8 +11,8 @@ export default class ProductController{
           console.error(error);
         }
       }
-      async  addProduct( prod,sessionUser ){
-        const products = await productManagerMongo.addProduct(prod,sessionUser)
+      async  addProduct( prod,oid ){
+        const products = await productManagerMongo.addProduct(prod,oid)
         return products
     }
       async  getByid(id){

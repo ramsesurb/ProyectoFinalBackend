@@ -60,7 +60,7 @@
   <input type="hidden" id="owner" name="owner" value="{{user.id}}">
 </div>
 
-      <button class="btn btn-success mt-4" data-cart-id="{{ ../user.id }} " >Agregar</button>
+      <button class="btn btn-success mt-4" data-cart-id="{{user.id }} " >Agregar</button>
 
     </form>
 
@@ -132,6 +132,5 @@
     {{/if}}
   </div>
 </div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/main.js"></script>
-<script src="/Controllers/ProductManagerMongo.js"></script>
+
+<script src="/js/manager.js"></script>

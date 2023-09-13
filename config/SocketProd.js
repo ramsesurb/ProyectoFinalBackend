@@ -14,7 +14,7 @@ export default function configureWebSocketServer(app) {
     console.log("Usuario conectado");
 
     socket.on("nuevoProducto", async (producto) => {
-      await productos.addProduct(producto);
+      await productos.addProduct(producto, producto.owner);
 
       socketServerIO.emit("actualizarTabla", await productos.getProducts());
     });
