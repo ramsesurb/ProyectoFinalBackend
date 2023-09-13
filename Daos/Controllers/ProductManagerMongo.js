@@ -8,7 +8,7 @@ class ProductManagerMongo {
   }
   async getProducts(limit, sort, descripcion) {
     try {
-      let query = productoModel.find();
+      let query = productoModel.find().populate("owner");
 
       if (sort) {
         query = query.sort(sort);
