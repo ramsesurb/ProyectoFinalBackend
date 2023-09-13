@@ -110,6 +110,8 @@
           <th scope="col">Nombre</th>
           <th scope="col">Precio</th>
           <th scope="col">Stock</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Owner Rol</th>
           <th scope="col">Imagen</th>
         </tr>
       </thead>
@@ -120,7 +122,8 @@
           <td>{{ this.titulo }}</td>
           <td>{{ this.precio }}</td>
           <td>{{ this.stock }}</td>
-          <td>{{ this.owner._id }}</td>
+          <td>{{ this.owner.first_name }} {{ this.owner.last_name }}</td>
+          <td>{{ this.owner.rol }} </td>
           <td><img src="{{ this.thumbnail }}" width="50"></td>
         </tr>
         {{/each}}

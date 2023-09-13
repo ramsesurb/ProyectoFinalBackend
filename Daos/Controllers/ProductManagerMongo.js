@@ -50,6 +50,7 @@ class ProductManagerMongo {
       }
       
       const newProduct = {
+        id:  Math.floor(Math.random() * 10000000001),
         titulo: prod.titulo,
         descripcion: prod.descripcion,
         precio: prod.precio,

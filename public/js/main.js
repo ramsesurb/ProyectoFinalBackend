@@ -50,7 +50,7 @@ const renderizarTabla = (data) => {
   <td>${item.titulo}</td>
   <td>${item.precio}</td>
   <td>${item.stock}</td>
-  <td>${item.owner.id}</td>
+  <td>${item.owner.first_name} ${item.owner.last_name}</td>
   <td><img src="${item.thumbnail}" width="50"></td>
   </tr>
   `;
