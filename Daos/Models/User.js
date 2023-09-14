@@ -4,12 +4,17 @@ const { Schema } = mongoose;
 
 const collection = 'User';
 
+function getCurrentTimestamp() {
+  return new Date();
+}
+
 const schema = new Schema({
   first_name: String,
   last_name: String,
   email: String,
   age: Number,
   password: String,
+  lastLogin: { type: Date, default: getCurrentTimestamp() },
   rol: {
     type: String,
     default: 'user' // Valor predeterminado 'user' para el campo 'rol'

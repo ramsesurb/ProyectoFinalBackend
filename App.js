@@ -7,6 +7,7 @@ import configureWebSocketServer from "./config/SocketProd.js";
 import swaggerUi from 'swagger-ui-express';
 import initializePassport from './config/passport.js';
 import passport from 'passport';
+import { configureCron } from "./config/cronConfig.js";
 
 import userList from "./Routes/UserList.js";
 import staticProd from "./Routes/StaticProd.js";
@@ -22,8 +23,6 @@ import { errorHandler } from "./Middlewares/errorHandler.js";
 import __dirname from "./utils.js";
 
 
-
-
 import { config } from "./config/Config,.js";
 import { addLogger } from "./utils/logger.js";
 import { swaggerSpecs } from "./config/docConfig.js";
@@ -31,6 +30,7 @@ import { swaggerSpecs } from "./config/docConfig.js";
 
 const MONGO = config.mongo.url;
 
+configureCron()
 //express
 const app = express();
 const PORT = config.server.port;

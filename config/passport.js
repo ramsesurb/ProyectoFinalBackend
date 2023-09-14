@@ -13,13 +13,20 @@ const initializePassport = () => {
     try {
        
        const user = await userService.findOne({email:username})
-       //console.log(user);
-        if(!user){
-            console.log('No existe el usuario');
-            return done(null, false);
-        }
-        if(!validatePassword(password,user)) return done (null, false);
-        return done(null,user);
+       if (!user) {
+        console.log('No existe el usuario');
+        return done(null, false);
+      }
+  
+      if (!validatePassword(password, user)) {
+        return done(null, false);
+      }
+  
+      // Actualiza la fecha y hora de la última autenticación
+      user.lastLogin = new Date();
+      await user.save();
+  
+      return done(null, user);
 
     } catch (error) {
         
@@ -31,7 +38,7 @@ const initializePassport = () => {
     passport.use('register', new LocalStrategy(
         { passReqToCallback:true, usernameField:'email'}, 
         async (req,username,password,done) =>{
-            const {first_name, last_name, email, age,rol,cart } = req.body;
+            const {first_name, last_name, email, age,rol,cart,lastLogin } = req.body;
             try {
                 let user = await userService.findOne({email:username});
                 if(user){
@@ -45,6 +52,7 @@ const initializePassport = () => {
                         rol,
                         age,
                         cart,
+                        lastLogin,
                         password: createHash(password) //De momento no vamos a hashearlo, eso corresponde a la siguiente clase.
                 }
                 let result = await userService.create(newUser);

@@ -1,5 +1,4 @@
 import { Router } from 'express';
-//import userModel from '../Daos/Models/User.js';
 import { createHash, validatePassword } from '../utils.js';
 import passport from 'passport';
 
@@ -28,6 +27,7 @@ router.post('/login', passport.authenticate('login',{failureRedirect:'/faillogin
         rol:req.user.rol,
         age: req.user.age,
         email: req.user.email,
+        lastLogin: req.user.lastLogin,
         cart: req.user.cart,
         cartId:req.user.cart._id,
     }
