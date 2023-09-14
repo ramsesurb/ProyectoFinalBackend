@@ -1,16 +1,16 @@
 import { transporter } from "../config/Gmail.js";
 
-export const sendMailDeleted = async ( generateDate, totalAmount, purchaserEmail) => {
+export const sendMailDeleted = async ( date,titulo,code,precio,ownerEmail) => {
     const emailDel = await transporter.sendMail({
         from:"Guitar Store",
-        to:`${purchaserEmail}`,
+        to:`${ownerEmail}`,
         subject:"producto eliminado",
         html: `<div>
-        <h1>Muchas gracias por tu compra!</h1>
-        <p>Tu compra fue realizada exitosamente.</p>
-        <p>Datos importantes de tu compra:</p>
-        <p>Codigo de compra: ${Code}</p>      <p>Compra realizada el: ${generateDate}</p>
-        <p>Total de compra: ${totalAmount}</p>
+        <h1>tu producto ha sido eliminado de la base de datos en la fecha: ${date} </h1>
+        <p>Datos importantes de tu producto:</p>
+        <p>Titulo: ${titulo}</p>
+        <p>Precio: ${precio}</p>
+        <p>Codigo${code}</p>      
         </div>`
     });
     return emailDel;

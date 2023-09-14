@@ -1,15 +1,16 @@
 
 import productoModel from '../Models/mongo.js';
 import { sendMailDeleted } from '../../Helpers/sendMailDeletedProd.js';
+import userModel from '../Models/User.js';
 
 class ProductManagerMongo {
 
-  async getSessionUser (req){
-    return req.session.user
-  }
+ 
   async getProducts(limit, sort, descripcion) {
     try {
       let query = productoModel.find().populate("owner");
+      
+      
 
       if (sort) {
         query = query.sort(sort);
@@ -35,8 +36,14 @@ class ProductManagerMongo {
   async addProduct(prod,oid) {
     try {
       const saveCont = await this.getProducts();
-
+      const getByid =await userModel.findOne({_id:oid})
+      console.log(getByid.rol)
       const codeExists = saveCont.some((product) => product.code === prod.code);
+
+      if (getByid !== "admin") 
+      {
+        console.log("no esta");
+      }
       if (codeExists) {
         const errorMsg = `Ya existe un producto con el código ${prod.code}`;
         
@@ -71,8 +78,11 @@ class ProductManagerMongo {
   async getByid(id) {
     try {
       
-      const getByid =await productoModel.findById(id)
-      console.log("producto buscado", getByid);
+      const getByid =await productoModel.findById(id).populate("owner")
+
+      console.log(getByid.owner.email)
+      console.log(getByid.owner.rol)
+      //console.log("producto buscado", getByid);
       return getByid;
     } catch (error) {
      // console.log(error);
@@ -80,15 +90,17 @@ class ProductManagerMongo {
   }
   async  deleteById(id) {
     try {
-      const deletedProduct = await productoModel.findOneAndDelete({ _id: id });
+      const deletedProduct = await productoModel.findOneAndDelete({ _id: id }).populate("owner");
       console.log(deletedProduct.owner.email)
   
       // Comprueba si el propietario es "Premium" y si el producto se eliminó correctamente
-      if (deletedProduct.owner === 'Premium') {
+      if (deletedProduct.owner.rol === 'premium') {
         await sendMailDeleted(
           new Date().toLocaleDateString(), // Cambia esto según cómo obtienes la fecha
+          deletedProduct.titulo,
+          deletedProduct.code,
           deletedProduct.precio, // Supongamos que el precio se utiliza como totalAmount
-          deletedProduct.ownerEmail // Asegúrate de tener una propiedad ownerEmail en tu modelo de producto
+          deletedProduct.owner.email // Asegúrate de tener una propiedad ownerEmail en tu modelo de producto
         );
       }
   

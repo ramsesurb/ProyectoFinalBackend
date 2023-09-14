@@ -31,6 +31,7 @@ form2.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const id = form2.elements.id.value;
+  
 
   console.log(event);
   socket.emit("quitarProducto", { id });
