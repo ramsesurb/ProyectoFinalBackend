@@ -21,7 +21,7 @@ const prods = new ProductManagerMongo();
 
 const routerCart = Router();
 
-// POST ticket
+
 routerCart.post("/:cid/purchase", async (req, res) => {
   try {
     const cartId = req.params.cid;
