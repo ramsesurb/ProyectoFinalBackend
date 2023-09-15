@@ -8,12 +8,7 @@ import ticketModel from "../Daos/Models/tickets.js";
 
 import { sendMailTicket } from "../Helpers/sendMailTicket.js";
 import { date } from "../Helpers/generateDate.js";
-import { Errors } from "../enums/Errors.js";
-import { generateCartErrorParam } from "../services/ErrorParam.js";
-import { generateCartNfErrorParam } from "../services/ErrorParam.js";
-import { generateProductNfErrorParam } from "../services/ErrorParam.js";
-import { generateProductErrorParam } from "../services/ErrorParam.js";
-import { CustomError } from "../services/customError.service.js";
+
 
 
 const productos = new CartController();
@@ -94,21 +89,11 @@ routerCart.post("/api/cart/:cartId/product/:productId", async (req, res) => {
   const newProducts = req.body;
   if (!cartId || cartId.length !== 24) {
     res.json({ status: "error", message: "el id del carrito no es valido" });
-    CustomError.createError({
-      name: "product get by id error",
-      cause: generateCartErrorParam(),
-      message: "Error obteniendo el carrito por el id",
-      errorCode: Errors.INVALID_PARAM,
-    });
+    ;
   }
   if (!productId || productId.length !== 24) {
     res.json({ status: "error", message: "el id del carrito no es valido" });
-    CustomError.createError({
-      name: "product get by id error",
-      cause: generateCartErrorParam(),
-      message: "Error obteniendo el carrito por el id",
-      errorCode: Errors.INVALID_PARAM,
-    });
+    ;
   }
   try {
     const updatedCart = await productos.addProduct(
@@ -133,45 +118,25 @@ routerCart.delete("/:cid/product/:pid", async (req, res) => {
     const findprod = await prods.getByid(pid);
     if (!cid || cid.length !== 24) {
       res.json({ status: "error", message: "el id del carrito  no es valido" });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     if (!findCart) {
       res.json({
         status: "error",
         message: "no se encontro un carrito con este valor",
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartNfErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     if (!pid || pid.length !== 24) {
       res.json({ status: "error", message: "el id del producto no es valido" });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateProductErrorParam(),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     if (!findprod) {
       res.json({
         status: "error",
         message: "no se encontro un producto con este valor",
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateProductNfErrorParam(cid),
-        message: "El producto no fue encontrado",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     const cart = await productos.deleteProductById(cid, pid);
 
@@ -187,13 +152,7 @@ routerCart.delete("del/:cid", async (req, res) => {
 
     console.log(cid);
     if (!cid || cid.length !== 24) {
-      res.json({ status: "error", message: "el id no es valido" });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     const cart = await productos.emptyCart(cid);
     if (!findCart) {
@@ -201,12 +160,7 @@ routerCart.delete("del/:cid", async (req, res) => {
         status: "error",
         message: "no se encontro un carrito con este valor",
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartNfErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     res.send(cart);
   } catch (error) {}
@@ -218,12 +172,7 @@ routerCart.put("/:cid", async (req, res) => {
   const products = req.body.productos;
   if (!cid || cid.length !== 24) {
     res.json({ status: "error", message: "el id del carrito no es valido" });
-    CustomError.createError({
-      name: "product get by id error",
-      cause: generateCartErrorParam(),
-      message: "Error obteniendo el carrito por el id",
-      errorCode: Errors.INVALID_PARAM,
-    });
+   ;
   }
 
   try {
@@ -243,22 +192,12 @@ routerCart.put("/:cid/product/:pid", async (req, res) => {
   console.log(pid, cid, quantity);
   if (!cid || cid.length !== 24) {
     res.json({ status: "error", message: `el id: ${cid} no es valido` });
-    CustomError.createError({
-      name: "product get by id error",
-      cause: generateCartErrorParam(cid),
-      message: "Error obteniendo el carrito por el id",
-      errorCode: Errors.INVALID_PARAM,
-    });
+   ;
   }
 
   if (!pid || pid.length !== 24) {
     res.json({ status: "error", message: `el id: ${cid} no es valido` });
-    CustomError.createError({
-      name: "product get by id error",
-      cause: generateCartErrorParam(cid),
-      message: "Error obteniendo el carrito por el id",
-      errorCode: Errors.INVALID_PARAM,
-    });
+    ;
   }
 
   try {
@@ -277,12 +216,7 @@ routerCart.get("/:cid", async (req, res, next) => {
   try {
     if (!cid || cid.length !== 24) {
       res.json({ status: "error", message: `el id: ${cid} no es valido` });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     const cart = await cartModel
       .findOne({ _id: cid })
@@ -292,12 +226,7 @@ routerCart.get("/:cid", async (req, res, next) => {
         status: "error",
         message: `no se encontro ningun carrito con el id: ${cid}`,
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartNfErrorParam(cid),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+     ;
     }
     res.send(cart);
   } catch (error) {}
