@@ -8,15 +8,12 @@ import ticketModel from "../Daos/Models/tickets.js";
 
 import { sendMailTicket } from "../Helpers/sendMailTicket.js";
 import { date } from "../Helpers/generateDate.js";
-
-
 import { Errors } from "../enums/Errors.js";
 import { generateCartErrorParam } from "../services/ErrorParam.js";
 import { generateCartNfErrorParam } from "../services/ErrorParam.js";
 import { generateProductNfErrorParam } from "../services/ErrorParam.js";
 import { generateProductErrorParam } from "../services/ErrorParam.js";
 import { CustomError } from "../services/customError.service.js";
-
 
 
 const productos = new CartController();
@@ -51,22 +48,21 @@ routerCart.post("/:cid/purchase", async (req, res) => {
     const code = Math.floor(Math.random() * 1000000000000000)
       .toString()
       .padStart(15, "0");
-      const generateDate = await date();
+    const generateDate = await date();
     const ticketData = {
       code: code,
       purchase_dateTime: generateDate,
       amount: totalAmount,
-      purchaser: purchaserEmail
+      purchaser: purchaserEmail,
     };
     console.log(ticketData);
-   await sendMailTicket(code, generateDate, totalAmount, purchaserEmail);
+    await sendMailTicket(code, generateDate, totalAmount, purchaserEmail);
     const ticket = await ticketModel.create(ticketData);
 
     cart.productos = productsWithStock;
     await cart.save();
 
     res.status(200).json(ticket);
-   
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al agregar el producto al carrito" });
@@ -85,10 +81,9 @@ routerCart.post("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     const newProducts = req.body;
-    const cart = await productos.addProduct(cid, newProducts,pid);
-    res.send(cart); 
+    const cart = await productos.addProduct(cid, newProducts, pid);
+    res.send(cart);
   } catch (error) {
-    // Manejar el error adecuadamente
     console.error(error);
     res.status(500).send("Error interno del servidor");
   }
@@ -129,14 +124,13 @@ routerCart.post("/api/cart/:cartId/product/:productId", async (req, res) => {
   }
 });
 
-
 //delete productos del array by id
 routerCart.delete("/:cid/product/:pid", async (req, res) => {
   try {
     const cid = req.params.cid;
-    const findCart = await productos.getByid(cid)
+    const findCart = await productos.getByid(cid);
     const pid = req.params.pid;
-    const findprod = await prods.getByid(pid)
+    const findprod = await prods.getByid(pid);
     if (!cid || cid.length !== 24) {
       res.json({ status: "error", message: "el id del carrito  no es valido" });
       CustomError.createError({
@@ -183,15 +177,14 @@ routerCart.delete("/:cid/product/:pid", async (req, res) => {
 
     res.send(cart);
   } catch (error) {}
-  
 });
 
 //vaciar carito
 routerCart.delete("del/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
-    const findCart = await productos.getByid(cid)
-    
+    const findCart = await productos.getByid(cid);
+
     console.log(cid);
     if (!cid || cid.length !== 24) {
       res.json({ status: "error", message: "el id no es valido" });
@@ -217,7 +210,6 @@ routerCart.delete("del/:cid", async (req, res) => {
     }
     res.send(cart);
   } catch (error) {}
-  
 });
 
 //actualizar carrito
@@ -258,7 +250,7 @@ routerCart.put("/:cid/product/:pid", async (req, res) => {
       errorCode: Errors.INVALID_PARAM,
     });
   }
-  
+
   if (!pid || pid.length !== 24) {
     res.json({ status: "error", message: `el id: ${cid} no es valido` });
     CustomError.createError({
@@ -279,7 +271,7 @@ routerCart.put("/:cid/product/:pid", async (req, res) => {
     res.status(500);
   }
 });
-//get by id cart 
+//get by id cart
 routerCart.get("/:cid", async (req, res, next) => {
   const { cid } = req.params;
   try {

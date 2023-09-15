@@ -38,7 +38,9 @@ class ProductManager {
         console.log(mensaje);
         return { error: mensaje };
       }
-      const id = (Math.floor(Math.random() * 100) % 100).toString().padStart(2, '0');
+      const id = (Math.floor(Math.random() * 100) % 100)
+        .toString()
+        .padStart(2, "0");
       const lastId = saveCont.length;
       const newProduct = {
         id: id,

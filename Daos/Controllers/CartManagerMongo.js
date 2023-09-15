@@ -4,9 +4,10 @@ import { promises as fs } from "fs";
 class CartManagerMongo {
   async getProducts(limit) {
     try {
-      const content = await cartModel.find(limit).populate("productos.producto")
-      
-    
+      const content = await cartModel
+        .find(limit)
+        .populate("productos.producto");
+
       if (limit) {
         return content.slice(0, limit);
       }
@@ -16,30 +17,30 @@ class CartManagerMongo {
       return [];
     }
   }
-  async  addProduct(cid, newProducts, pid) {
+  async addProduct(cid, newProducts, pid) {
     try {
       const cart = await cartModel.findOne({ _id: cid });
       const findProduct = await productoModel.findOne({ _id: pid });
-  
+
       if (!cart) {
         const newCart = await cartModel.create({
           productos: newProducts,
         });
         return newCart;
       }
-  
+
       const existingProductIndex = cart.productos.findIndex(
         (item) => item.producto.toString() === pid.toString()
       );
-  
+
       if (existingProductIndex !== -1) {
-        // Si el producto ya existe en el carrito, aumenta la cantidad en 1
+        
         cart.productos[existingProductIndex].quantity += 1;
       } else {
-        // Si el producto no existe en el carrito, agrégalo con cantidad 1
+        
         cart.productos.push({ producto: pid, quantity: 1 });
       }
-  
+
       const updatedCart = await cart.save();
       return updatedCart;
     } catch (error) {
@@ -47,18 +48,18 @@ class CartManagerMongo {
       throw error;
     }
   }
-  
+
   async createCart() {
     try {
-      
       const newProduct = {
-        id: (Math.floor(Math.random() * 1000) % 1000).toString().padStart(3, '0'),
+        id: (Math.floor(Math.random() * 1000) % 1000)
+          .toString()
+          .padStart(3, "0"),
         productos: [],
       };
-      const result = await cartModel.create(newProduct)
+      const result = await cartModel.create(newProduct);
       console.log("producto nuevo", newProduct);
-      return result
-      
+      return result;
     } catch (error) {
       console.log(error);
     }
@@ -66,10 +67,11 @@ class CartManagerMongo {
 
   async getByid(id) {
     try {
-      
       //const getByid =await cartModel.findOne({id:id})
 
-      const getByid = await cartModel.findById(id).populate("productos.producto")
+      const getByid = await cartModel
+        .findById(id)
+        .populate("productos.producto");
       console.log("producto buscado", getByid);
       return getByid;
     } catch (error) {
@@ -79,7 +81,7 @@ class CartManagerMongo {
 
   async deleteById(id) {
     try {
-      const deleteByid = await cartModel.findOneAndDelete({_id:id})
+      const deleteByid = await cartModel.findOneAndDelete({ _id: id });
       return deleteByid;
     } catch (error) {
       console.log(error);
@@ -90,10 +92,10 @@ class CartManagerMongo {
     try {
       const cart = await cartModel.findOneAndUpdate(
         { _id: cid },
-        { $pull: { productos: { producto: [{_id:pid}] } } },
+        { $pull: { productos: { producto: [{ _id: pid }] } } },
         { new: true }
       );
-      
+
       return cart;
     } catch (error) {
       console.log(error);
@@ -142,7 +144,5 @@ class CartManagerMongo {
   }
 }
 
- 
 export default CartManagerMongo;
 const rute = new CartManagerMongo();
-

@@ -9,11 +9,10 @@ form3.addEventListener("submit", (event) => {
 
   const usuario = form3.elements.usuario.value;
   const mensaje = form3.elements.mensaje.value;
-  
-  console.log(event);
-  socket.emit("nuevoChat", { usuario,mensaje });
-});
 
+  console.log(event);
+  socket.emit("nuevoChat", { usuario, mensaje });
+});
 
 socket.on("actualizarChat", (data) => {
   renderizarChat(data);
@@ -33,4 +32,4 @@ const renderizarChat = (data) => {
     })
     .join("");
   tbody.innerHTML = productsMap;
-}
+};

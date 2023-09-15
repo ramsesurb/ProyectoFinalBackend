@@ -23,7 +23,9 @@ export default class TicketManagerMongo {
         }
       }
 
-      const code = Math.floor(Math.random() * 1000000000000000).toString().padStart(15, '0');
+      const code = Math.floor(Math.random() * 1000000000000000)
+        .toString()
+        .padStart(15, "0");
       const date = new Date();
       const timestamp = date.getTime();
       const user = await userModel.findOne({ cart: cid });
@@ -33,7 +35,7 @@ export default class TicketManagerMongo {
         code: code,
         purchase_dateTime: timestamp,
         amount: totalAmount,
-        purchaser: purchaserEmail
+        purchaser: purchaserEmail,
       };
 
       const ticket = await ticketModel.create(ticketData);
@@ -42,7 +44,9 @@ export default class TicketManagerMongo {
 
       return ticket;
     } catch (error) {
-      throw new Error(`Error al procesar la compra del carrito: ${error.message}`);
+      throw new Error(
+        `Error al procesar la compra del carrito: ${error.message}`
+      );
     }
   }
 }

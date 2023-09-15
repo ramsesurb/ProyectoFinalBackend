@@ -1,33 +1,16 @@
 import { Router } from "express";
-//import { productsService } from "../Repository/index.js";
 import { CustomError } from "../services/customError.service.js";
 import { Errors } from "../enums/Errors.js";
 import { generateProductErrorInfo } from "../services/ErrorInfo.js";
-import { generateProductErrorParam } from "../services/ErrorParam.js";
 import { generateProductNfErrorParam } from "../services/ErrorParam.js";
 import ProductController from "../Daos/Managers/prodManager.js";
-//import ProductManagerMongo from "../Daos/Controllers/ProductManagerMongo.js";
-//const productController = new ProductController();
+
 
 import  {getSessionUser}  from "../Helpers/sessionUser.js";
 
 const productController = new ProductController();
 
-const adminAccess = (req, res, next) => {
-  if (req.session.user && req.session.user.rol === "admin") {
-    next();
-  } else {
-    res.json("no esta autorizado para acceder a esta URL"); // Puedes redirigir a una página de acceso denegado o mostrar un mensaje de error
-  }
-};
 
-const userAccess = (req, res, next) => {
-  if (req.session.user && req.session.user.rol === "user") {
-    next();
-  } else {
-    res.redirect("/"); // Puedes redirigir a una página de acceso denegado o mostrar un mensaje de error
-  }
-};
 
 const routerProd = Router();
 
@@ -35,8 +18,6 @@ const routerProd = Router();
 routerProd.get("/", async (req, res) => {
   try {
     const sessionUser = getSessionUser(req);
-    console.log(sessionUser)
-    
     const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
     const prodsRaw = await productController.getProducts(limit);
     const prods = prodsRaw.map((item) => item.toObject());
@@ -49,10 +30,8 @@ routerProd.get("/", async (req, res) => {
 //get by id
 routerProd.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-
   try {
     const prodById = await productController.getByid(id);
-    console.log(id);
 
     if (!id || id.length !== 24) {
       res.json({ status: "error", message: `el id: ${id} no es valido` });
@@ -107,7 +86,6 @@ routerProd.post("/owner/:oid", async (req, res, next) => {
 routerProd.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const pid = id;
-
   try {
     const prodById = await productController.getByid(id);
     const deleteProd = await productController.deleteById(pid);
@@ -120,7 +98,6 @@ routerProd.delete("/:id", async (req, res) => {
         errorCode: Errors.INVALID_PARAM,
       });
     }
-
     if (!prodById) {
       res.json({
         status: "error",

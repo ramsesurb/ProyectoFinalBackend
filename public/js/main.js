@@ -31,7 +31,6 @@ form2.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const id = form2.elements.id.value;
-  
 
   console.log(event);
   socket.emit("quitarProducto", { id });
@@ -52,6 +51,7 @@ const renderizarTabla = (data) => {
   <td>${item.precio}</td>
   <td>${item.stock}</td>
   <td>${item.owner.first_name} ${item.owner.last_name}</td>
+  <td>${item.owner.rol}</td>
   <td><img src="${item.thumbnail}" width="50"></td>
   </tr>
   `;

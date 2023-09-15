@@ -66,7 +66,6 @@ deleteButton.forEach(button => {
   button.addEventListener('click', e => {
     e.preventDefault();
 
-    const productId = e.target.dataset.id;
     const cartId = e.target.dataset.cartId;
 
     fetch(`/users/${cartId}/deleteUser`, {

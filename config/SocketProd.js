@@ -4,9 +4,8 @@ import http from "http";
 import { Server } from "socket.io";
 
 const productos = new ProductManagerMongo();
-const chat= new ChatManager()
+const chat = new ChatManager();
 
-// el socket se rompio pero envia por parametro el owner
 export default function configureWebSocketServer(app) {
   const server = http.createServer(app);
   const socketServerIO = new Server(server);
@@ -27,10 +26,10 @@ export default function configureWebSocketServer(app) {
     socket.on("nuevoChat", async (mensaje) => {
       await chat.addMenssage(mensaje);
       console.log(mensaje);
-  
-      socketServerIO.emit("actualizarChat",chat.getChat());
+
+      socketServerIO.emit("actualizarChat", chat.getChat());
     });
   });
- 
+
   return { server, socketServerIO };
 }

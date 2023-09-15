@@ -4,7 +4,6 @@
     <p>{{user.first_name }} {{user.last_name}}</p>
     <p>{{user.email}}</p>
     <p>Rol:{{user.rol}}</p>
-    <p>Rol:{{user.cartId}}</p>
     <a href="/prods" class="btn btn-primary">Volver</a>
     <a href="/prods" class="btn btn-primary addTicket"  data-cart-id="{{user.cartId}}">finalizar compra</a>
     
@@ -31,7 +30,6 @@
   <div class="card-body">
     
     <p class="card-text">cantidad:{{ this.quantity }}/ precio:{{ this.producto.precio }}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>
            

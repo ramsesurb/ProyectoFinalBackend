@@ -15,11 +15,9 @@ form.addEventListener('submit', e => {
   })
     .then((result) => result.json())
     .then((json) => {
-      console.log(json);
-
-      // Verifica si la respuesta indica éxito (ajusta esto según la respuesta de tu servidor)
+      console.log(json);s
       if (json.success) {
-        // Redirige a la página "home"
+  
         window.location.href = '/';
       }
     })

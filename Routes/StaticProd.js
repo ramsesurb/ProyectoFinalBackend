@@ -8,34 +8,12 @@ import ProductManagerMongo from "../Daos/Controllers/ProductManagerMongo.js";
 
 const productos = new ProductManagerMongo()
 
+import { adminAccess ,adminOrPremiumAccess,privateAccess ,userAccess} from "../Middlewares/accessRole.js";
 
 const staticProd = Router();
 
-//middlewares
 
-const privateAccess = (req,res,next)=>{
-  if(!req.session.user) return res.redirect('/prods');
-  next();
-}
-const adminAccess = (req, res, next) => {
-  if (req.session.user && req.session.user.rol === "admin") {
-    next();
-  } else {
-    res.redirect("/register"); // Puedes redirigir a una página de acceso denegado o mostrar un mensaje de error
-  }
-};
-
-const userAccess = (req, res, next) => {
-  if (req.session.user && req.session.user.rol === "user") {
-    next();
-  } else {
-    res.redirect("/denegado"); // Puedes redirigir a una página de acceso denegado o mostrar un mensaje de error
-  }}
-
-//rutas
-
-
-staticProd.get('/mockingproducts', (req,res)=>{
+staticProd.get('/mockingproducts',adminAccess, (req,res)=>{
     const cant = parseInt(req.query.cant) || 100;
     let productos = [];
     for (let i = 0; i < cant; i++) {
@@ -45,7 +23,9 @@ staticProd.get('/mockingproducts', (req,res)=>{
     res.json({productos})
 })
 
-
+staticProd.get('/compra', (req,res)=>{
+  res.render('compra')
+})
 
 staticProd.get('/register', (req,res)=>{
   res.render('register') 
@@ -55,27 +35,15 @@ staticProd.get('/register', (req,res)=>{
 staticProd.get('/', (req,res)=>{
   res.render('login')
 })
-
 staticProd.get('/current',userAccess, async (req,res)=>{
 
   let{ first_name,last_name,email,age} = req.session.user
   let user = new CreateUserDto({first_name,last_name,email,age})
   res.render('profile',{user})
 })
-
-staticProd.get('/manager', async (req,res)=>{
-  const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-  const prodsRaw = await productos.getProducts(limit);
- 
-  const prods = prodsRaw.map(item=>item.toObject())
- 
-  res.render('manageProds',{user: req.session.user ,  productos: prods })
-})
-
-staticProd.get("/prods",   async (req, res) => {
+staticProd.get("/prods",privateAccess,   async (req, res) => {
   const { page = 1, limit: queryLimit, sort, descripcion } = req.query;
 
-  // Obtener los productos paginados de Mongoose
   const options = { limit: 6, page, lean: true };
 
   if (queryLimit) {

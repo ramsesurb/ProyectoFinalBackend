@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import { createHash, validatePassword } from '../utils.js';
 import passport from 'passport';
+
 
 const router = Router();
 
 router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ),async (req, res) =>{
-    //res.redirect('/')
     res.send({status:"succes", message:"User registered"});
    
 
@@ -15,7 +14,7 @@ router.get('/failregister', async (req,res)=>{
     res.send({error: 'Error en el registro'})
 })
 
-
+import { adminAccess ,adminOrPremiumAccess,privateAccess } from "../Middlewares/accessRole.js";
 router.post('/login', passport.authenticate('login',{failureRedirect:'/faillogin'}), async (req,res)=>{
 
     if(!req.user) return res.status(400).send({status:"error", error: 'Invalid credentials'});

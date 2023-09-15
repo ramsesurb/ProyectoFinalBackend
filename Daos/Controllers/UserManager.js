@@ -14,8 +14,6 @@ class UserManager {
     try {
       
       const getByid =await userModel.findOne({id:uid})
-
-      //const getByid = await cartModel.findById(id).populate("productos.producto")
       console.log("producto buscado", getByid);
       return getByid;
     } catch (error) {

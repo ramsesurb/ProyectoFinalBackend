@@ -8,18 +8,18 @@ const CORREO_ADMIN = process.env.CORREO_ADMIN;
 const PASSWORD_ADMIN = process.env.PASSWORD_ADMIN;
 
 export const config = {
-    server: {
-        port: PORT
-    },
-    mongo: {
-        url: MONGO_URL
-    },
-    auth: {
-        account: CORREO_ADMIN,
-        pass: PASSWORD_ADMIN
-    } ,
-    gmail:{
-        adminAccount: process.env.CORREO_ADMIN,
-        adminPass: process.env.PASSWORD_ADMIN
-    },
-}
+  server: {
+    port: PORT,
+  },
+  mongo: {
+    url: MONGO_URL,
+  },
+  auth: {
+    account: CORREO_ADMIN,
+    pass: PASSWORD_ADMIN,
+  },
+  gmail: {
+    adminAccount: process.env.CORREO_ADMIN,
+    adminPass: process.env.PASSWORD_ADMIN,
+  },
+};

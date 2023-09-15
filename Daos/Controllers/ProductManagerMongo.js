@@ -1,16 +1,11 @@
-
-import productoModel from '../Models/mongo.js';
-import { sendMailDeleted } from '../../Helpers/sendMailDeletedProd.js';
-import userModel from '../Models/User.js';
+import productoModel from "../Models/mongo.js";
+import { sendMailDeleted } from "../../Helpers/sendMailDeletedProd.js";
+import userModel from "../Models/User.js";
 
 class ProductManagerMongo {
-
- 
   async getProducts(limit, sort, descripcion) {
     try {
       let query = productoModel.find().populate("owner");
-      
-      
 
       if (sort) {
         query = query.sort(sort);
@@ -33,32 +28,35 @@ class ProductManagerMongo {
     }
   }
 
-  async addProduct(prod,oid) {
+  async addProduct(prod, oid) {
     try {
       const saveCont = await this.getProducts();
-      const getByid =await userModel.findOne({_id:oid})
-      console.log(getByid.rol)
+      const getByid = await userModel.findOne({ _id: oid });
       const codeExists = saveCont.some((product) => product.code === prod.code);
 
-      if (getByid !== "admin") 
-      {
-        console.log("no esta");
+      if (getByid === "user") {
+        console.log("no esta autorizado para agregar productos");
       }
       if (codeExists) {
         const errorMsg = `Ya existe un producto con el código ${prod.code}`;
-        
+
         console.log(errorMsg);
         return { error: errorMsg };
-        
       }
 
-      if (!prod.titulo ||!prod.descripcion ||!prod.precio ||!prod.code ||!prod.thumbnail ||!prod.stock) 
-      {
+      if (
+        !prod.titulo ||
+        !prod.descripcion ||
+        !prod.precio ||
+        !prod.code ||
+        !prod.thumbnail ||
+        !prod.stock
+      ) {
         console.log("Todos los campos son obligatorios");
       }
-      
+
       const newProduct = {
-        id:  Math.floor(Math.random() * 10000000001),
+        id: Math.floor(Math.random() * 10000000001),
         titulo: prod.titulo,
         descripcion: prod.descripcion,
         precio: prod.precio,
@@ -66,48 +64,40 @@ class ProductManagerMongo {
         thumbnail: prod.thumbnail,
         stock: prod.stock,
         owner: oid,
-        status: true
+        status: true,
       };
-      const result = await productoModel.create(newProduct)
-      return result
+      const result = await productoModel.create(newProduct);
+      return result;
     } catch (error) {
       console.log(error);
     }
   }
- 
+
   async getByid(id) {
     try {
-      
-      const getByid =await productoModel.findById(id).populate("owner")
-
-      console.log(getByid.owner.email)
+      const getByid = await productoModel.findById(id).populate("owner");
       console.log(getByid.owner.rol)
-      //console.log("producto buscado", getByid);
       return getByid;
-    } catch (error) {
-     // console.log(error);
-    }
+    } catch (error) {}
   }
-  async  deleteById(id) {
+  async deleteById(id) {
     try {
-      const deletedProduct = await productoModel.findOneAndDelete({ _id: id }).populate("owner");
-      console.log(deletedProduct.owner.email)
-  
-      // Comprueba si el propietario es "Premium" y si el producto se eliminó correctamente
-      if (deletedProduct.owner.rol === 'premium') {
+      const deletedProduct = await productoModel
+        .findOneAndDelete({ _id: id })
+        .populate("owner");
+      if (deletedProduct.owner.rol === "premium") {
         await sendMailDeleted(
-          new Date().toLocaleDateString(), // Cambia esto según cómo obtienes la fecha
+          new Date().toLocaleDateString(), 
           deletedProduct.titulo,
           deletedProduct.code,
-          deletedProduct.precio, // Supongamos que el precio se utiliza como totalAmount
-          deletedProduct.owner.email // Asegúrate de tener una propiedad ownerEmail en tu modelo de producto
+          deletedProduct.precio, 
+          deletedProduct.owner.email 
         );
       }
-  
+
       return deletedProduct;
     } catch (error) {
       console.log(error);
-      // Maneja cualquier error que ocurra al eliminar el producto
       throw error;
     }
   }
@@ -115,13 +105,10 @@ class ProductManagerMongo {
     try {
       let products = await this.getProducts();
       products.splice(0, products.length);
-
-     
     } catch (error) {
       console.log(error);
     }
   }
-
 }
-export default ProductManagerMongo
+export default ProductManagerMongo;
 const rute = new ProductManagerMongo("./Data/Productos.json");
