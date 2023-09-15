@@ -1,8 +1,5 @@
 import { Router } from "express";
 import { CustomError } from "../services/customError.service.js";
-import { Errors } from "../enums/Errors.js";
-import { generateProductErrorInfo } from "../services/ErrorInfo.js";
-import { generateProductNfErrorParam } from "../services/ErrorParam.js";
 import ProductController from "../Daos/Managers/prodManager.js";
 
 
