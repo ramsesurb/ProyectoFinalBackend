@@ -4,7 +4,7 @@ import userModel from "../Daos/Models/User.js";
 export function configureCron() {
   cron.schedule("*/2 * * * *", async () => {
     try {
-      const inactivityPeriod = 120; // Duración del período de inactividad en minutos para probar
+      const inactivityPeriod = 15; // Duración del período de inactividad en minutos para probar
 
       const deadlineDate = new Date();
       deadlineDate.setMinutes(deadlineDate.getMinutes() - inactivityPeriod);
