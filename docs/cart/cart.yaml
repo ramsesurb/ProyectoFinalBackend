@@ -1,0 +1,169 @@
+paths:
+  /api/cart:
+    get:
+      summary: Obtener todas los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carritos se obtuvieron de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+  /api/cart/{cartId}/product/{productId}:
+    post:
+      summary: agrega un producto al carrito seleccionado
+      tags:
+        - Carts
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: id es del carrito donde se agrega el producto (utiliza id de mongo)
+          schema:
+            $type: string 
+        - name: productId
+          in: path
+          required: true
+          description: id es del producto a agregar  (utiliza id de mongo)
+          schema:
+            $type: string 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/PostCart"
+      responses:
+        "200":
+          description: Los productos se obtuvieron de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor 
+  /api/cart/{cid}/product/{pid}:
+    delete:
+      summary: elimina un producto del carrito seleccionado
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id es del carrito donde se elimina el producto (utiliza id de mongo)
+          schema:
+            $type: string 
+        - name: productId
+          in: path
+          required: true
+          description: id es del producto a eliminar  (utiliza id creado por el usuario por el momento, modificacion pendiente)
+          schema:
+            $type: number
+      responses:
+        "200":
+          description: Los productos se obtuvieron de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor             
+  /api/cart/{cid}:
+    get:
+      summary: Obtener carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id es del carrito a buscar , funciona con populate
+          schema:
+            $type: string  
+      responses:
+        "200":
+          description: El productos se obtuvo de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor
+  /api/cart/del/{cid}:
+    delete:
+      summary: vaciar carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id es el del carrito  a vaciar (utiliza id de mongo)
+          schema:
+            $type: string  
+      responses:
+        "200":
+          description: El carrito se vacio de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor
+  /api/cart/{cid}/:
+    put:
+      summary: actualizar carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id es el del carrito  a vaciar (utiliza id de mongo)
+          schema:
+            $type: string  
+      responses:
+        "200":
+          description: El carrito se vacio de forma correcta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor  
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id carito
+        productos:
+          type: array
+          description: productos agregados al carrito
+      example:
+        _id: ObjectId("gsa98273skjhgda8912")
+        productos: "[
+             producto: guitar
+             quantity:1
+             id:2
+             _id:gsa98273skjhgda8912]"
+
