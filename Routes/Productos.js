@@ -1,8 +1,5 @@
 import { Router } from "express";
-import { CustomError } from "../services/customError.service.js";
-import { Errors } from "../enums/Errors.js";
-import { generateProductErrorInfo } from "../services/ErrorInfo.js";
-import { generateProductNfErrorParam } from "../services/ErrorParam.js";
+
 import ProductController from "../Daos/Managers/prodManager.js";
 
 
@@ -35,24 +32,14 @@ routerProd.get("/:id", async (req, res, next) => {
 
     if (!id || id.length !== 24) {
       res.json({ status: "error", message: `el id: ${id} no es valido` });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartErrorParam(id),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     if (!prodById) {
       res.json({
         status: "error",
         message: `no se encontro un producto con el id : ${id}`,
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateProductNfErrorParam(id),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     res.send(prodById);
   } catch (error) {}
@@ -67,12 +54,7 @@ routerProd.post("/owner/:oid", async (req, res, next) => {
   try {
     const saveProd = await productController.addProduct(prod,oid);
     if (!prod) {
-      CustomError.createError({
-        name: "product create error",
-        cause: generateProductErrorInfo(),
-        message: "Error creando el producto",
-        errorCode: Errors.INVALID_JSON,
-      });
+      ;
     }
     res.send(saveProd);
   } catch (error) {
@@ -91,24 +73,14 @@ routerProd.delete("/:id", async (req, res) => {
     const deleteProd = await productController.deleteById(pid);
     if (!id || id.length !== 24) {
       res.json({ status: "error", message: `el id: ${id} no es valido` });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateCartErrorParam(id),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     if (!prodById) {
       res.json({
         status: "error",
         message: `no se encontro un producto con el valor: ${id}`,
       });
-      CustomError.createError({
-        name: "product get by id error",
-        cause: generateProductNfErrorParam(id),
-        message: "Error obteniendo el carrito por el id",
-        errorCode: Errors.INVALID_PARAM,
-      });
+      ;
     }
     res.send(deleteProd);
   } catch (error) {}
