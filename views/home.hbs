@@ -28,7 +28,7 @@
     <h5 class="card-title">{{ this.titulo }}</h5>
     <h5 class="card-text" > ${{ this.precio }} </h5>
     <p class="card-text">{{ this.descripcion }}</p>
-  <button class="btn btn-primary addCart" data-id="{{ this._id }}" data-cart-id="{{ ../user.cartId }}">Agregar al carrito</button>
+  <button href="/cart/{{ ../user.cartId }}" class="btn btn-primary addCart" data-id="{{ this._id }}" data-cart-id="{{ ../user.cartId }}">Agregar al carrito</button>
   
   </div>
 </div>

@@ -1,5 +1,8 @@
 import { Router } from "express";
-
+import { CustomError } from "../services/customError.service.js";
+import { Errors } from "../enums/Errors.js";
+import { generateProductErrorInfo } from "../services/ErrorInfo.js";
+import { generateProductNfErrorParam } from "../services/ErrorParam.js";
 import ProductController from "../Daos/Managers/prodManager.js";
 
 
@@ -32,7 +35,12 @@ routerProd.get("/:id", async (req, res, next) => {
 
     if (!id || id.length !== 24) {
       res.json({ status: "error", message: `el id: ${id} no es valido` });
-      ;
+      CustomError.createError({
+        name: "product get by id error",
+        cause: generateCartErrorParam(id),
+        message: "Error obteniendo el carrito por el id",
+        errorCode: Errors.INVALID_PARAM,
+      });
     }
     if (!prodById) {
       res.json({
